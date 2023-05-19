@@ -16,4 +16,11 @@ module.exports = {
       title: "Output Management",
     }),
   ],
+  devtool: "inline-source-map",
+  devServer: {
+    static: "./dist",
+  },
+  optimization: {
+    runtimeChunk: "single",
+  },
 };
