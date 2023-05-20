@@ -5,6 +5,8 @@ import img from "./assets/img.png";
 import "./style.css";
 
 function App() {
+  const a = 1;
+  debugger;
   return (
     <div>
       app
