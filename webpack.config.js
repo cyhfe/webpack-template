@@ -4,23 +4,33 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   entry: {
     index: "./src/index.js",
-    print: "./src/print.js",
   },
+
   output: {
-    filename: "[name].bundle.js",
+    filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Output Management",
+      // title: "Output Management",
     }),
   ],
   devtool: "inline-source-map",
   devServer: {
     static: "./dist",
   },
-  optimization: {
-    runtimeChunk: "single",
-  },
+  //   optimization: {
+  //     runtimeChunk: "single",
+  //     moduleIds: "deterministic",
+  //     splitChunks: {
+  //       cacheGroups: {
+  //         vendor: {
+  //           test: /[\\/]node_modules[\\/]/,
+  //           name: "vendors",
+  //           chunks: "all",
+  //         },
+  //       },
+  //     },
+  //   },
 };
