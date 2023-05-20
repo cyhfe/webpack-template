@@ -4,8 +4,9 @@
   "description": "",
   "private": true,
   "scripts": {
-    "build": "webpack -- --mode=production",
-    "start": "webpack serve --open --mode=development"
+    "build": "webpack --env mode=production",
+    "build:dev": "webpack --env mode=development",
+    "start": "webpack serve --open --env mode=development"
   },
   "keywords": [],
   "author": "",

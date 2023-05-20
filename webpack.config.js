@@ -1,7 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = {
+module.exports = (env) => ({
+  mode: env.mode || "production",
   entry: {
     index: "./src/index.js",
   },
@@ -11,26 +12,30 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
+
   plugins: [
     new HtmlWebpackPlugin({
-      // title: "Output Management",
+      title: "Output Management",
     }),
   ],
   devtool: "inline-source-map",
   devServer: {
     static: "./dist",
   },
-  //   optimization: {
-  //     runtimeChunk: "single",
-  //     moduleIds: "deterministic",
-  //     splitChunks: {
-  //       cacheGroups: {
-  //         vendor: {
-  //           test: /[\\/]node_modules[\\/]/,
-  //           name: "vendors",
-  //           chunks: "all",
-  //         },
-  //       },
-  //     },
-  //   },
-};
+  optimization: {
+    // usedExports: true,
+    // 将 runtime 代码拆分为一个单独的 chunk。将其设置为 single 来为所有 chunk 创建一个 runtime bundle：
+    // runtimeChunk: "single",
+    // //将第三方库(library)（例如 lodash 或 react）提取到单独的 vendor chunk 文件中，是比较推荐的做法，这是因为，它们很少像本地的源代码那样频繁修改。因此通过实现以上步骤，利用 client 的长效缓存机制，命中缓存来消除请求，并减少向 server 获取资源，同时还能保证 client 代码和 server 代码版本一致。
+    // moduleIds: "deterministic",
+    // splitChunks: {
+    //   cacheGroups: {
+    //     vendor: {
+    //       test: /[\\/]node_modules[\\/]/,
+    //       name: "vendors",
+    //       chunks: "all",
+    //     },
+    //   },
+    // },
+  },
+});
