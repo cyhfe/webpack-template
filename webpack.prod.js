@@ -17,9 +17,9 @@ module.exports = {
       filename: "static/css/[name].[contenthash:8].css",
       chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
     }),
-    // new PurgeCSSPlugin({
-    //   paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
-    // }),
+    new PurgeCSSPlugin({
+      paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
+    }),
   ],
   module: {
     rules: [

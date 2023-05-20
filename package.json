@@ -8,7 +8,7 @@
     "build:dev": "webpack --env mode=development",
     "watch": "webpack --watch --env mode=production",
     "watch:dev": "webpack --watch --env mode=development",
-    "start": "webpack serve --env mode=production"
+    "start": "webpack serve --env mode=development"
   },
   "keywords": [],
   "author": "",
