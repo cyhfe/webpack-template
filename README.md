@@ -46,3 +46,5 @@ mode: production 默认启用
 `usedExports: true`
 通过`pakage.json` 的`sideEffects: false`
 注释 `/*#__PURE__*/`
+
+https://stackoverflow.com/questions/43638454/webpack-typescript-image-import

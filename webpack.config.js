@@ -7,17 +7,42 @@ module.exports = ({ mode = "production" }) => {
   return {
     mode,
     entry: {
-      index: "./src/index.tsx",
+      index: path.resolve(__dirname, "src/"),
     },
 
     output: {
-      filename: "[name].[contenthash].js",
+      // 不同类型分文件夹保存,方便 nginx 设置缓存
+      // 入口文件
+      filename: "static/js/[name].[contenthash:8].js",
+      // chunk 文件
+      chunkFilename: "static/js/[name].[contenthash:8].chunk.js",
+      // 资源文件
+      assetModuleFilename: "static/media/[name].[hash][ext]",
       path: path.resolve(__dirname, "dist"),
       clean: true,
     },
-
     module: {
       rules: [
+        {
+          test: /\.css$/i,
+          use: ["style-loader", "css-loader"],
+        },
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: "asset/resource",
+        },
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/i,
+          type: "asset/resource",
+        },
+        {
+          test: /\.(csv|tsv)$/i,
+          use: ["csv-loader"],
+        },
+        {
+          test: /\.xml$/i,
+          use: ["xml-loader"],
+        },
         {
           test: /\.tsx?$/,
           use: "ts-loader",
@@ -27,31 +52,10 @@ module.exports = ({ mode = "production" }) => {
     },
 
     plugins: [
-      new HtmlWebpackPlugin(
-        Object.assign(
-          {},
-          {
-            inject: true,
-            template: path.resolve(__dirname, "public/index.html"),
-          },
-          true
-            ? {
-                minify: {
-                  removeComments: true,
-                  collapseWhitespace: true,
-                  removeRedundantAttributes: true,
-                  useShortDoctype: true,
-                  removeEmptyAttributes: true,
-                  removeStyleLinkTypeAttributes: true,
-                  keepClosingSlash: true,
-                  minifyJS: true,
-                  minifyCSS: true,
-                  minifyURLs: true,
-                },
-              }
-            : undefined
-        )
-      ),
+      new HtmlWebpackPlugin({
+        inject: true,
+        template: path.resolve(__dirname, "public/index.html"),
+      }),
     ],
     devtool: "inline-source-map",
     devServer: {
