@@ -2,6 +2,8 @@
 
 参考 `create-react-app` 和官方文档,先完成一个 React + TS 的最小可用版本.
 
+观察各种配置前后产物差异.
+
 后续通过使用慢慢优化.
 
 - [x] webpack merge
