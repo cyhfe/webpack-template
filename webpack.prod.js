@@ -1,5 +1,14 @@
+const path = require("path");
+
+const glob = require("glob");
+const { PurgeCSSPlugin } = require("purgecss-webpack-plugin");
+
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+
+const PATHS = {
+  src: path.join(__dirname, "src"),
+};
 
 module.exports = {
   devtool: "source-map",
@@ -8,6 +17,9 @@ module.exports = {
       filename: "static/css/[name].[contenthash:8].css",
       chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
     }),
+    // new PurgeCSSPlugin({
+    //   paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
+    // }),
   ],
   module: {
     rules: [
@@ -35,11 +47,17 @@ module.exports = {
           name: "vendors",
           chunks: "all",
         },
+        styles: {
+          name: "styles",
+          test: /\.css$/,
+          chunks: "all",
+          enforce: true,
+        },
       },
     },
     minimizer: [
       // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
-      // `...`,
+      `...`,
       new CssMinimizerPlugin(),
     ],
   },
