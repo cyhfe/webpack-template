@@ -1,4 +1,28 @@
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+
 module.exports = {
+  devtool: "source-map",
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "static/css/[name].[contenthash:8].css",
+      chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        // Don't consider CSS imports dead code even if the
+        // containing package claims to have no side effects.
+        // Remove this when webpack adds a warning or an error for this.
+        // See https://github.com/webpack/webpack/issues/6571
+        sideEffects: true,
+      },
+    ],
+  },
+
   optimization: {
     // 将 runtime 代码拆分为一个单独的 chunk。将其设置为 single 来为所有 chunk 创建一个 runtime bundle：
     runtimeChunk: "single",
@@ -13,5 +37,10 @@ module.exports = {
         },
       },
     },
+    minimizer: [
+      // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
+      // `...`,
+      new CssMinimizerPlugin(),
+    ],
   },
 };
