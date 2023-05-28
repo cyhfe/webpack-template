@@ -1,8 +1,41 @@
 # webpack
 
+## 构建产物
+
+```bash
+./dist/static
+├── css
+│   ├── index.cc4caada.css
+│   └── index.cc4caada.css.map
+├── js
+│   ├── index.2e0bbdb4.js
+│   ├── index.2e0bbdb4.js.map
+│   ├── runtime.7e80dd86.js
+│   ├── runtime.7e80dd86.js.map
+│   ├── vendors.dc781d86.js
+│   ├── vendors.dc781d86.js.LICENSE.txt
+│   └── vendors.dc781d86.js.map
+└── media
+    └── img.3d75a34f42dfe8c84e00.png
+```
+
 ## environment
 
 [https://webpack.js.org/guides/production/](https://webpack.js.org/guides/production/)
+
+```bash
+├── README.md
+├── dist
+├── node_modules
+├── package-lock.json
+├── package.json
+├── public
+├── src
+├── tsconfig.json
+├── webpack.common.js
+├── webpack.dev.js
+└── webpack.prod.js
+```
 
 ## HtmlWebpackPlugin
 
@@ -139,6 +172,10 @@ declare module "*.jpg" {
 
 ## 优化
 
+### js
+
+[https://webpack.js.org/guides/caching/](https://webpack.js.org/guides/caching/)
+
 ```json
   optimization: {
     // 将 runtime 代码拆分为一个单独的 chunk。将其设置为 single 来为所有 chunk 创建一个 runtime bundle：
@@ -166,4 +203,46 @@ declare module "*.jpg" {
 ├── runtime.9473fc4f.js.map
 ├── vendors.3fc966ce.js
 └── vendors.3fc966ce.js.map
+```
+
+### css
+
+#### mini-css-extract-plugin
+
+[https://webpack.js.org/plugins/mini-css-extract-plugin/#root](https://webpack.js.org/plugins/mini-css-extract-plugin/#root)
+
+```js
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+module.exports = {
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "static/css/[name].[contenthash:8].css",
+      chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+    ],
+  },
+};
+```
+
+#### CssMinimizerWebpackPlugin
+
+[https://webpack.js.org/plugins/css-minimizer-webpack-plugin/](https://webpack.js.org/plugins/css-minimizer-webpack-plugin/)
+
+```json
+  optimization: {
+    minimizer: [
+      // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
+      // `...`,
+      new CssMinimizerPlugin(),
+    ],
+  },
+  plugins: [new MiniCssExtractPlugin()],
 ```
