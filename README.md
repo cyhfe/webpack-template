@@ -246,3 +246,18 @@ module.exports = {
   },
   plugins: [new MiniCssExtractPlugin()],
 ```
+
+## eslint
+
+用`create-react-app`的配置
+
+```bash
+npm install --save-dev eslint-config-react-app eslint
+```
+
+```json
+// .eslintrc.json
+{
+  "extends": "react-app"
+}
+```
